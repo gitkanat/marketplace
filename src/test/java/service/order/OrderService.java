@@ -54,7 +54,7 @@ public class OrderService {
                 .extract().as(new TypeRef<ResponseModel<List<ProductResponseModel>>>() {});
 
         // Assuming the list is not empty, return the ID of the first product
-        return response.getContent().get(0).getId();
+        return response.getContent().getLast().getId();
     }
 
     // Getter methods for accessing authToken and productId
