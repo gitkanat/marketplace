@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import model.feedback.FeedbackRequestModel;
 import org.junit.jupiter.api.*;
 import service.FeedbackService;
+import service.order.OrderService;
 
 import static endpoint.FeedbackEndpoints.FEEDBACK_POST_CREATE;
 import static io.restassured.RestAssured.given;
@@ -11,22 +12,30 @@ import static io.restassured.RestAssured.given;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FeedbackTest {
 
+
+private static String authToken;
+    private static int productId;
+    private static int orderId;
+
     @BeforeAll
     public static void setup() {
-        FeedbackService.setup();
+        OrderService.setup();
+        authToken = FeedbackService.getAuthToken();
+        orderId = FeedbackService.getOrderId();
+
     }
 
     @Test
     @Order(1)
     public void testCreateFeedback() {
-        String token = FeedbackService.getAuthToken();
+        String authToken = FeedbackService.getAuthToken();
         int orderId = FeedbackService.getOrderId();
 
         FeedbackRequestModel feedback = FeedbackService.buildDefaultFeedbackRequest();
 
         given()
             .contentType(ContentType.JSON)
-            .header("Authorization", "Bearer " + token)
+            .header("Authorization", "Bearer " + authToken)
             .queryParam("orderId", orderId)
             .body(feedback)
         .when()
