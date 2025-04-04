@@ -5,6 +5,7 @@ import io.restassured.common.mapper.TypeRef;
 import model.ResponseModel;
 import model.auth.AuthResponseModel;
 import org.junit.jupiter.api.*;
+import org.junit.platform.suite.api.AfterSuite;
 import service.auth.AuthService;
 import payload.auth.SignInRequestBuilder;
 
@@ -176,7 +177,7 @@ public class AuthTest {
         testUserId = responseModel.getContent().getId();
     }
 
-    @AfterAll
+    @AfterSuite
     public static void testDeleteUser() {
         RestAssured
                 .given()
