@@ -177,7 +177,7 @@ public class AuthTest {
         testUserId = responseModel.getContent().getId();
     }
 
-    @AfterSuite
+    @AfterAll
     public static void testDeleteUser() {
         RestAssured
                 .given()
