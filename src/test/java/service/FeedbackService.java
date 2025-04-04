@@ -8,14 +8,12 @@ import model.auth.AuthResponseModel;
 import model.feedback.FeedbackRequestModel;
 import model.order.OrderResponseModel;
 import model.product.ProductResponseModel;
-import org.junit.jupiter.api.BeforeAll;
 import service.auth.AuthService;
 
 import java.util.List;
 
 import static endpoint.AuthEndpoints.SIGN_IN;
 import static endpoint.OrderEndpoints.ORDER_CREATE;
-import static endpoint.OrderEndpoints.ORDER_GET_BY_ID;
 import static endpoint.ProductEndpoints.PRODUCT_GET_ALL;
 import static io.restassured.RestAssured.given;
 
@@ -69,6 +67,7 @@ public class FeedbackService {
 
         orderId = orderResponse.getContent().getId();
     }
+
     public static FeedbackRequestModel buildDefaultFeedbackRequest() {
         return FeedbackRequestModel.builder()
                 .rating(4)

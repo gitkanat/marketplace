@@ -1,27 +1,20 @@
 package testcases;
 
-
-import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.ResponseModel;
-import model.auth.AuthResponseModel;
 import model.order.OrderResponseModel;
-import model.product.ProductResponseModel;
 import org.junit.jupiter.api.*;
-import service.auth.AuthService;
+import service.order.OrderService;
 
 import java.util.List;
 
-import static endpoint.AuthEndpoints.SIGN_IN;
 import static endpoint.OrderEndpoints.*;
-import static endpoint.ProductEndpoints.PRODUCT_GET_ALL;
 import static io.restassured.RestAssured.given;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OrderTest {
-
 
     private static String authToken;
     private static int productId;
@@ -29,37 +22,11 @@ public class OrderTest {
 
     @BeforeAll
     public static void setup() {
-        ResponseModel<AuthResponseModel> responseModel = RestAssured
-                .given()
-                    .contentType("application/json")
-                    .body(AuthService.buildTestSignInRichUserModel())
-                .when()
-                    .put(SIGN_IN)
-                .then()
-                    .log().body()
-                    .statusCode(200)
-                    .extract().as(new TypeRef<ResponseModel<AuthResponseModel>>() {
-                    });
-        authToken = responseModel.getContent().getToken();
-
-        ResponseModel<List<ProductResponseModel>> response =
-                given()
-                    .contentType(ContentType.JSON)
-                    .header("Authorization", "Bearer " + authToken)
-                .when()
-                    .get(PRODUCT_GET_ALL)
-                .then()
-                    .statusCode(200)
-                    .log().body()
-                    .extract()
-                    .as(new TypeRef<ResponseModel<List<ProductResponseModel>>>() {
-                    });
-        List<ProductResponseModel> products = response.getContent();
-        productId = products.getFirst().getId();
-
+        OrderService.setup();
+        authToken = OrderService.getAuthToken();
+        productId = OrderService.getProductId();
 
     }
-
 
     @Test
     @Order(1)
@@ -74,20 +41,17 @@ public class OrderTest {
                     .post(ORDER_CREATE)
                 .then()
                     .statusCode(200)
-                    .extract().as(new TypeRef<ResponseModel<OrderResponseModel>>() {
-                    });
+                    .extract().as(new TypeRef<ResponseModel<OrderResponseModel>>() {});
 
         OrderResponseModel order = response.getContent();
-        double balance = order.getUserResponseDto().getBalance();
         orderId = order.getId();
-
 
     }
 
     @Test
     @Order(2)
     public void testGetOrderById() {
-        System.out.println("Order ID: " + orderId);
+        System.out.println("Fetching Order ID: " + orderId);
         ResponseModel<OrderResponseModel> response =
                 given()
                     .contentType(ContentType.JSON)
@@ -99,15 +63,15 @@ public class OrderTest {
                     .statusCode(200)
                     .log().body()
                     .extract()
-                    .as(new TypeRef<ResponseModel<OrderResponseModel>>() {
-                    });
-        Assertions.assertNotNull(response.getContent());
+                    .as(new TypeRef<ResponseModel<OrderResponseModel>>() {});
 
+        Assertions.assertNotNull(response.getContent());
     }
+
     @Test
     @Order(3)
     public void testOrderGetAll() {
-        System.out.println("Order ID: " + orderId);
+        System.out.println("Fetching all orders");
         ResponseModel<List<OrderResponseModel>> response =
                 given()
                     .contentType(ContentType.JSON)
@@ -118,18 +82,15 @@ public class OrderTest {
                     .statusCode(200)
                     .log().body()
                     .extract()
-                    .as(new TypeRef<ResponseModel<List<OrderResponseModel>>>() {
-                    });
+                    .as(new TypeRef<ResponseModel<List<OrderResponseModel>>>() {});
 
         Assertions.assertNotNull(response.getContent());
-
     }
-
 
     @Test
     @Order(4)
     public void testCancelOrderById() {
-        System.out.println("Order ID: " + orderId);
+        System.out.println("Canceling Order ID: " + orderId);
         Response response =
                 given()
                     .contentType(ContentType.JSON)
@@ -142,7 +103,7 @@ public class OrderTest {
                     .log().body()
                     .extract()
                     .response();
-        Assertions.assertEquals(response.getBody().asString(), "{\"status\":\"OK\",\"message\":\"Order canceled\"}");
 
+        Assertions.assertEquals(response.getBody().asString(), "{\"status\":\"OK\",\"message\":\"Order canceled\"}");
     }
 }

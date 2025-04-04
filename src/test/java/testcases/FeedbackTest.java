@@ -25,15 +25,15 @@ public class FeedbackTest {
         FeedbackRequestModel feedback = FeedbackService.buildDefaultFeedbackRequest();
 
         given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + token)
-                .queryParam("orderId", orderId)
-                .body(feedback)
-                .when()
-                .post(FEEDBACK_POST_CREATE)
-                .then()
-                .statusCode(500)// временная заглушка
-                .log().body();
+            .contentType(ContentType.JSON)
+            .header("Authorization", "Bearer " + token)
+            .queryParam("orderId", orderId)
+            .body(feedback)
+        .when()
+            .post(FEEDBACK_POST_CREATE)
+        .then()
+            .statusCode(500)// временная заглушка
+            .log().body();
     }
 
     @Test
