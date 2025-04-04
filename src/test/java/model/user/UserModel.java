@@ -1,6 +1,7 @@
 package model.user;
 
 public class UserModel {
+    private int id;
     private String fullName;
     private String email;
     private String password;
@@ -11,6 +12,16 @@ public class UserModel {
 
     public UserModel() {
     }
+    public UserModel(int id, String fullName, String email, String password, String phoneNumber, double balance, String address) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.balance = balance;
+        this.address = address;
+    }
+
     public UserModel(String fullName, String email, String password, String phoneNumber, double balance, String address) {
         this.fullName = fullName;
         this.email = email;
@@ -20,6 +31,12 @@ public class UserModel {
         this.address = address;
     }
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getFullName() {
         return fullName;
     }
