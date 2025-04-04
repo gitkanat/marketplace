@@ -4,22 +4,20 @@ import io.restassured.http.ContentType;
 import model.feedback.FeedbackRequestModel;
 import org.junit.jupiter.api.*;
 import service.FeedbackService;
-import service.order.OrderService;
 
 import static endpoint.FeedbackEndpoints.FEEDBACK_POST_CREATE;
 import static io.restassured.RestAssured.given;
+
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FeedbackTest {
 
 
-private static String authToken;
-    private static int productId;
+    private static String authToken;
     private static int orderId;
 
     @BeforeAll
     public static void setup() {
-        OrderService.setup();
         authToken = FeedbackService.getAuthToken();
         orderId = FeedbackService.getOrderId();
 
@@ -30,6 +28,9 @@ private static String authToken;
     public void testCreateFeedback() {
         String authToken = FeedbackService.getAuthToken();
         int orderId = FeedbackService.getOrderId();
+
+        System.out.println("authToken: " + authToken);
+        System.out.println("orderId: " + orderId);
 
         FeedbackRequestModel feedback = FeedbackService.buildDefaultFeedbackRequest();
 
@@ -50,16 +51,19 @@ private static String authToken;
     public void testUpdateFeedback() {
         System.out.println("Не нашел решение");
     }
+
     @Test
     @Order(3)
     public void testGetByIDFeedback() {
         System.out.println("Не нашел решение");
     }
+
     @Test
     @Order(4)
     public void testGetAllFeedback() {
         System.out.println("Не нашел решение");
     }
+
     @Test
     @Order(5)
     public void testDeleteFeedback() {

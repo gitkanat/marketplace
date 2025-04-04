@@ -1,7 +1,9 @@
 package model.order;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import model.product.ProductResponseModel;
 import model.user.UserModel;
+
 
 public class OrderResponseModel {
     private int id;
