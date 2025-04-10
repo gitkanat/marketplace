@@ -14,15 +14,15 @@ import static io.restassured.RestAssured.given;
 public class PasswordResetTest {
 
     private static PasswordResetService userManagementService;
-    private static String userEmail = Config.getProperty("test.user.email");
+    private static String userEmail = Config.getProperty("test.pwd.update.email");
 
     @BeforeAll
     public static void setup() {
-        RestAssured.baseURI = Config.getProperty("test.base-url");
+//        RestAssured.baseURI = Config.getProperty("test.base-url");
         userManagementService = new PasswordResetService();
 
         // Step 1: Create a test user
-        userManagementService.testSignUp();
+//        userManagementService.testSignUp();
 
         // Step 2: Sign in as the test user to get userId
         userManagementService.testSignIn();

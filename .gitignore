@@ -71,3 +71,7 @@ node_modules/
 # OS-specific files
 Thumbs.db
 Desktop.ini
+
+config.properties
+LinkToBugs
+resources/config.properties

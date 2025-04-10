@@ -19,6 +19,7 @@ public class AuthService {
 
     private static final String USER_EMAIL = Config.getProperty("test.user.email");
     private static final String USER_RICH_EMAIL = Config.getProperty("test.rich.email");
+    private static final String USER_PWD_UPDATE_EMAIL = Config.getProperty("test.pwd.update.email");
     private static final String USER_PASSWORD = Config.getProperty("test.user.password");
 
     private static final String TEST_FULL_NAME = Config.getProperty("test.full_name");
@@ -47,6 +48,14 @@ public class AuthService {
         SignInRequestModel signInRequestModel = new SignInRequestModel();
 
         signInRequestModel.setEmail(USER_RICH_EMAIL);
+        signInRequestModel.setPassword(USER_PASSWORD);
+
+        return signInRequestModel;
+    }
+    public static SignInRequestModel buildTestSignInPwdUpdateUserModel() {
+        SignInRequestModel signInRequestModel = new SignInRequestModel();
+
+        signInRequestModel.setEmail(USER_PWD_UPDATE_EMAIL);
         signInRequestModel.setPassword(USER_PASSWORD);
 
         return signInRequestModel;
